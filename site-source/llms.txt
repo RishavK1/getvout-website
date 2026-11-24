@@ -1,0 +1,54 @@
+# getvout
+
+> getvout is a design and development team based in Karnal, Haryana, India. We create websites, web applications, online shops, brand identities and workflow automation.
+
+The canonical website is https://getvout.com/en. The website is English-only.
+This file is a human-readable discovery aid following the community llms.txt
+proposal; it is not a search-index submission, ranking signal or training licence.
+
+## Studio and contact
+
+- [Home](https://getvout.com/en): Overview of our studio and four selected projects.
+- [Our work](https://getvout.com/en/work): Eight selected projects, starting with JAC Creation; Rudra Infocom is third and TalScout.ai is last.
+- [Our team](https://getvout.com/en/studio): Our approach and collaboration. The studio has 20+ projects overall; eight are selected for this website.
+- [Contact](https://getvout.com/en/contact): Email hello@getvout.com for general enquiries or contact@getvout.com for business and privacy questions.
+- [WhatsApp](https://wa.me/917404511743): +91 7404511743 is WhatsApp-only, not a calling number.
+
+## Services
+
+- [All services](https://getvout.com/en/services): Discuss requirements, scope and timeline before a tailored proposal; no standard prices are published.
+- [Website design and development](https://getvout.com/en/services/websites)
+- [Custom software and web apps](https://getvout.com/en/services/custom-software-apps)
+- [Brand identity and logo design](https://getvout.com/en/services/brand-logo)
+- [AI assistants](https://getvout.com/en/services/ai-assistants)
+- [Online shops](https://getvout.com/en/services/online-shops)
+- [Workflow automation](https://getvout.com/en/services/workflow-automation)
+- [Hosting, domains and business email](https://getvout.com/en/services/hosting-domains-email)
+
+## Journal
+
+The seven articles were reviewed for publication by the getvout team on
+24 November 2026. They disclose AI assistance and link their sources.
+Interactive examples are demonstrations, not evidence of client results.
+
+- [Journal](https://getvout.com/en/journal): All articles.
+- [Dropdown defaults: make the choice visible](https://getvout.com/en/journal/dropdown-defaults-accessible-forms)
+- [Safer confirmations for high-risk actions](https://getvout.com/en/journal/safer-confirmation-ux)
+- [CTA buttons: clarity before animation](https://getvout.com/en/journal/accessible-cta-button-design)
+- [A walkthrough that answers the next question](https://getvout.com/en/journal/website-walkthrough-video)
+- [Template or custom? Start with the workflow](https://getvout.com/en/journal/template-vs-custom-website)
+- [Fast feedback is not a short animation](https://getvout.com/en/journal/inp-animation-responsive-websites)
+- [SEO and AEO start beneath the surface](https://getvout.com/en/journal/technical-seo-aeo-useful-content)
+
+## Important limitations
+
+The enquiry forms do not currently deliver or store messages. Contact the team
+by email or WhatsApp instead. Legal notices remain drafts pending confirmation
+of business and hosting details. The website does not claim guaranteed search
+rankings, sales results, awards or third-party certification.
+
+## Official profiles and discovery
+
+- [LinkedIn](https://www.linkedin.com/company/getvout/)
+- [Instagram](https://www.instagram.com/getvout)
+- [XML sitemap](https://getvout.com/sitemap.xml): Canonical indexable pages only.

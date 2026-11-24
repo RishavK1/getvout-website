@@ -16,6 +16,7 @@ __pycache__/
 /getvout-reference.html
 /getvout-reference.js
 /CLEANUP-AUDIT.md
+/getvout.com-audit/
 
 # Local environments, credentials and editor/agent tooling
 .venv/

@@ -100,6 +100,11 @@ async function main() {
         const dom = await send("Runtime.evaluate", {
           expression:`(() => ({
             title:document.title,
+            description:document.querySelector('meta[name="description"]')?.content,
+            canonical:document.querySelector('link[rel="canonical"]')?.href,
+            robots:document.querySelector('meta[name="robots"]')?.content,
+            schemaCount:document.querySelectorAll('script[type="application/ld+json"]').length,
+            schemaTypes:[...document.querySelectorAll('script[type="application/ld+json"]')].flatMap(s=>{try{return (JSON.parse(s.textContent)['@graph']||[]).map(n=>n['@type'])}catch{return ['INVALID_JSON']}}),
             heading:document.querySelector("h1")?.textContent,
             overflow:document.documentElement.scrollWidth>innerWidth,
             projects:document.querySelectorAll("[data-card]").length,

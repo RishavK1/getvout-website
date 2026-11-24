@@ -1,0 +1,8 @@
+# Public search and AI retrieval may crawl the public website.
+# This is crawl guidance, not authentication or a model-training licence.
+User-agent: *
+Allow: /
+Disallow: /api/index
+Disallow: /lens/
+
+Sitemap: https://getvout.com/sitemap.xml

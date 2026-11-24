@@ -1,0 +1,89 @@
+{
+  "origin": "https://getvout.com",
+  "home": "/en",
+  "publicationDate": "2026-11-24T00:00:00+05:30",
+  "publishedDateLabel": "24 November 2026",
+  "noindex": ["/en/start-project", "/en/privacy", "/en/imprint"],
+  "pages": {
+    "/en": {
+      "title": "getvout — Web Design & Development in Karnal, India",
+      "description": "getvout is a design and development team in Karnal, India. We build websites, web apps, online shops and workflow automation. Explore our work and services.",
+      "label": "Home"
+    },
+    "/en/work": {
+      "title": "Our Work — Websites & Digital Products | getvout",
+      "description": "Explore eight selected getvout projects, including JAC Creation, Hira Dhan Builders and Rudra Infocom. Browse websites, web apps and online shops.",
+      "label": "Work"
+    },
+    "/en/services": {
+      "title": "Web Design, Software & Automation Services | getvout",
+      "description": "Explore getvout’s web design, custom software, branding, AI, e-commerce, automation and hosting services. Based in Karnal, India. Scope first, tailored proposals.",
+      "label": "Services"
+    },
+    "/en/studio": {
+      "title": "Our Team — Design & Development Studio | getvout",
+      "description": "Meet getvout, a collaborative design and development team in Karnal, Haryana, India. See how we approach useful interfaces, websites and connected systems.",
+      "label": "Studio"
+    },
+    "/en/journal": {
+      "title": "Journal — UX, Web Development & SEO Guides | getvout",
+      "description": "Read getvout’s practical guides to accessible interfaces, website performance, custom development and technical SEO, with interactive examples and sources.",
+      "label": "Journal"
+    },
+    "/en/contact": {
+      "title": "Contact getvout — Email & WhatsApp | Karnal, India",
+      "description": "Contact getvout’s design and development team in Karnal, India. Email hello@getvout.com or message +91 7404511743 on WhatsApp. WhatsApp only, no calls.",
+      "label": "Contact"
+    },
+    "/en/start-project": {
+      "title": "Start a Project — Talk to getvout",
+      "description": "Outline your goals, requirements and preferred timing. This project form is not connected yet; email hello@getvout.com or message our team on WhatsApp.",
+      "label": "Start a project"
+    },
+    "/en/privacy": {
+      "title": "Privacy Notice — getvout",
+      "description": "Read the current getvout privacy notice covering browser storage, local-only forms, external links and details still to confirm for production.",
+      "label": "Privacy"
+    },
+    "/en/imprint": {
+      "title": "Studio Information & Legal Notice — getvout",
+      "description": "getvout studio information and contact details in Karnal, Haryana, India. Legal business and publication details remain subject to confirmation.",
+      "label": "Imprint"
+    },
+    "/en/services/websites": {
+      "title": "Website Design & Development in Karnal | getvout",
+      "description": "Custom website design and development by getvout in Karnal, India. Responsive interfaces, clear content and maintainable code, scoped around your business.",
+      "label": "Website design & development"
+    },
+    "/en/services/custom-software-apps": {
+      "title": "Custom Software & Web App Development | getvout",
+      "description": "Plan custom software and web applications with getvout. We shape workflows, interfaces, integrations and maintainable systems around your requirements.",
+      "label": "Custom software & apps"
+    },
+    "/en/services/brand-logo": {
+      "title": "Brand Identity & Logo Design Services | getvout",
+      "description": "Build a coherent brand identity with getvout: logo design, typography, colour and practical visual guidelines for consistent use across digital touchpoints.",
+      "label": "Brand & logo"
+    },
+    "/en/services/ai-assistants": {
+      "title": "AI Assistant Design & Integration Services | getvout",
+      "description": "Explore AI assistants with getvout for business questions and workflows. We plan useful interactions, integrations and clear handoffs around your needs.",
+      "label": "AI assistants"
+    },
+    "/en/services/online-shops": {
+      "title": "E-commerce Website & Online Shop Development | getvout",
+      "description": "Create an online shop with getvout. Plan product browsing, checkout, payments and content management around your customers, catalogue and business operations.",
+      "label": "Online shops"
+    },
+    "/en/services/workflow-automation": {
+      "title": "Business Workflow Automation Services | getvout",
+      "description": "Connect repetitive business tasks with getvout’s workflow automation services. Map processes, integrate tools and plan reliable handoffs with your team.",
+      "label": "Workflow automation"
+    },
+    "/en/services/hosting-domains-email": {
+      "title": "Website Hosting, Domains & Business Email | getvout",
+      "description": "Plan website hosting, domain configuration and business email with getvout. Keep ownership, setup, maintenance and ongoing responsibilities clearly defined.",
+      "label": "Hosting, domains & email"
+    }
+  }
+}

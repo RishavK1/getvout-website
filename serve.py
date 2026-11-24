@@ -70,9 +70,49 @@ class PreviewHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
         parsed = urlparse(self.path)
         route = parsed.path.rstrip("/") or "/"
-        if route in {"/contact", "/start-project"}:
-            self.send_response(302)
-            self.send_header("Location", "/en" + route + ("?" + parsed.query if parsed.query else ""))
+        suffix = ("?" + parsed.query) if parsed.query else ""
+        aliases = {"/" + name for name in ("work", "services", "studio", "journal", "contact", "start-project", "privacy", "imprint")}
+        if route in aliases:
+            self.send_response(308)
+            self.send_header("Location", "/en" + route + suffix)
+            self.end_headers()
+            return
+        if route == "/llm.txt":
+            self.send_response(308)
+            self.send_header("Location", "/llms.txt")
+            self.end_headers()
+            return
+        if route.startswith("/en/") and route.endswith("/index.html"):
+            self.send_response(308)
+            self.send_header("Location", route.removesuffix("/index.html") + suffix)
+            self.end_headers()
+            return
+        if route == "/en/index.html":
+            self.send_response(308)
+            self.send_header("Location", "/en" + suffix)
+            self.end_headers()
+            return
+        if parsed.path.endswith("/") and route != "/":
+            self.send_response(308)
+            self.send_header("Location", route + suffix)
+            self.end_headers()
+            return
+        if route.startswith("/en/") and route.endswith("/index.rsc"):
+            self.send_error(404, "Page not found")
+            return
+        if route == "/api/index" or route.startswith("/api/index/"):
+            self.send_error(404, "Page not found")
+            return
+        if route.startswith(("/services/", "/journal/")):
+            candidate = "/en" + route
+            if (ROOT / candidate.lstrip("/") / "index.html").is_file():
+                self.send_response(308)
+                self.send_header("Location", candidate + suffix)
+                self.end_headers()
+                return
+        if route == "/index.html":
+            self.send_response(308)
+            self.send_header("Location", "/en" + suffix)
             self.end_headers()
             return
         routes = {"/en", "/en/work", "/en/services", "/en/studio", "/en/journal", "/en/contact", "/en/start-project", "/en/privacy", "/en/imprint"}
@@ -94,13 +134,15 @@ class PreviewHandler(SimpleHTTPRequestHandler):
                 self.send_header("Content-Type", "text/x-component")
                 self.send_header("Content-Length", str(len(content)))
                 self.send_header("Vary", "RSC, Next-Router-State-Tree, Next-Router-Prefetch")
+                self.send_header("X-Robots-Tag", "noindex")
                 self.end_headers()
-                self.wfile.write(content)
+                if self.command != "HEAD":
+                    self.wfile.write(content)
                 return
             self.send_error(404, "Page not found")
             return
         if parsed.path == "/":
-            self.send_response(302)
+            self.send_response(308)
             self.send_header("Location", "/en")
             self.end_headers()
             return
@@ -111,7 +153,8 @@ class PreviewHandler(SimpleHTTPRequestHandler):
                 self.send_header("Content-Type", "text/html; charset=utf-8")
                 self.send_header("Content-Length", str(len(content)))
                 self.end_headers()
-                self.wfile.write(content)
+                if self.command != "HEAD":
+                    self.wfile.write(content)
                 return
             self.path = route + "/index.html"
         elif parsed.path == "/_next/image":
@@ -126,7 +169,13 @@ class PreviewHandler(SimpleHTTPRequestHandler):
         if parsed.path.endswith(".mp4") and self.headers.get("Range"):
             self.serve_video_range()
             return
-        super().do_GET()
+        if self.command == "HEAD":
+            super().do_HEAD()
+        else:
+            super().do_GET()
+
+    def do_HEAD(self):
+        self.do_GET()
 
     def serve_video_range(self):
         file = Path(self.translate_path(self.path))
@@ -170,6 +219,13 @@ class PreviewHandler(SimpleHTTPRequestHandler):
 
     def end_headers(self):
         self.send_header("Cache-Control", "no-cache")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
+        self.send_header("X-Frame-Options", "SAMEORIGIN")
+        # Production content is indexable; local/alternate deployment hosts are not.
+        host = self.headers.get("Host", "").split(":")[0].lower()
+        if host not in {"getvout.com", "www.getvout.com"}:
+            self.send_header("X-Robots-Tag", "noindex, follow")
         super().end_headers()
 
 

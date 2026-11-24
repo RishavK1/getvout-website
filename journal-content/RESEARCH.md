@@ -11,9 +11,10 @@ and displayed code snippets are not republished as getvout editorial work.
 Demo mechanics remain reference-derived as requested; this is not a claim that
 getvout independently authored or owns that implementation.
 
-Articles are AI-assisted editorial drafts, visibly disclosed on each page.
-They require human editorial approval before public publication. No expert review,
-user study, conversion experiment or paid keyword-volume study is claimed.
+The owner confirmed review and approved all seven articles for indexing on
+24 November 2026. They now disclose AI assistance and review by the getvout
+team. This is editorial approval, not a claim of external expert review,
+a user study, a conversion experiment or paid keyword-volume research.
 
 ## Search intent
 

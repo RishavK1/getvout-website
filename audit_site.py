@@ -45,8 +45,11 @@ def audit(forbidden):
                     page_issues.append({"problem":"Missing local target", "target":value})
                 if value and value.startswith("tel:"):
                     page_issues.append({"problem":"Unexpected telephone link"})
-        if not doc.xpath('//meta[@name="robots" and contains(@content,"noindex")]'):
-            page_issues.append({"problem":"Preview noindex missing"})
+        policy = json.loads((ROOT / "seo-config.json").read_text()) if (ROOT / "seo-config.json").exists() else None
+        blocked = route in policy["noindex"] if policy else True
+        directives = doc.xpath('//meta[@name="robots"]/@content')
+        if len(directives) != 1 or (("noindex" in directives[0]) != blocked):
+            page_issues.append({"problem":"Indexing policy mismatch"})
         flight = path.with_suffix(".rsc")
         try:
             list(records(flight.read_text()))
