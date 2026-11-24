@@ -1,0 +1,17 @@
+<p>A responsive interaction gives useful visual feedback promptly. That is different from finishing every animation quickly. A menu can acknowledge input immediately and then unfold; it can also have a short animation that starts too late because the main thread is busy.</p>
+<h2>What does INP actually measure?</h2>
+<p>Interaction to Next Paint, or INP, assesses responsiveness to clicks, taps and keyboard interactions across a visit. It looks at the delay until the browser can present the next frame, rather than waiting for every asynchronous consequence of the action to finish.</p>
+<p>web.dev defines a good INP as 200 milliseconds or less at the 75th percentile of field page loads, segmented by mobile and desktop. That is a metric threshold, not an instruction that every hover or page transition should last 200 milliseconds. Ordinary scrolling and hovering are not themselves the interactions INP measures.</p>
+<h2>Why can a short animation still feel slow?</h2>
+<p>Suppose a visitor opens a navigation menu while a large script is processing. If the browser cannot handle the input promptly, even a brief visual transition begins after an uncomfortable pause. Reducing its duration does not address the blocked input.</p>
+<p>Investigate what happens before the next paint: expensive event handlers, competing work and unnecessary rendering are possible contributors. Give understandable feedback while longer work continues. Do not display a success state merely because an animation ended.</p>
+<h2>Where should easing fit?</h2>
+<p>Easing controls how movement changes over time. It can help communicate an element’s destination or relationship to the page, but there is no universal curve that makes a website feel premium. Choose motion around the task, then test interruption, repeated activation and slower devices.</p>
+<h2>How should reduced motion work?</h2>
+<p>The <code>prefers-reduced-motion</code> media query communicates a user preference for less motion. Keep the result and meaning of the interaction while reducing non-essential movement. Removing a decorative translation may be appropriate; hiding the only indication that something changed is not.</p>
+<p>The existing demonstrations keep their motion preferences. For your own build, test the reduced-motion path as a real interface, not as a screenshot. Check whether controls remain reachable, content appears and the selected or completed state is understandable.</p>
+<h2>What can we measure before launch?</h2>
+<p>Exercise the important journeys in development tools and look for delayed feedback. Laboratory tests can reproduce problems but do not establish your real visitors’ 75th-percentile INP. After launch, use suitable field data when available and investigate the particular interactions behind slow results.</p>
+<p>For the control-level review, read <a href="/en/journal/accessible-cta-button-design">CTA buttons: clarity before animation</a>. For a larger build, discuss performance expectations when scoping <a href="/en/services/websites">website development</a>.</p>
+<h2>Sources and further reading</h2>
+<ul><li><a href="https://web.dev/articles/inp">web.dev: Interaction to Next Paint</a></li><li><a href="https://web.dev/articles/prefers-reduced-motion">web.dev: prefers-reduced-motion</a></li></ul>

@@ -1,0 +1,29 @@
+<!-- getvout journal: a visible starting value with a native fallback -->
+<label for="reply-route">How should we reply?</label>
+<select id="reply-route" name="replyRoute">
+  <option value="email" selected>Email — starting choice</option>
+  <option value="call">Phone call</option>
+</select>
+<p>You can change this before sending your enquiry.</p>
+<style>
+  #reply-route {
+    min-height: 3rem;
+    padding: .75rem 1rem;
+    border: 1px solid currentColor;
+    border-radius: 1rem;
+    font: inherit;
+  }
+  #reply-route:focus-visible {
+    outline: 3px solid #ff3e3e;
+    outline-offset: 3px;
+  }
+  @supports (appearance: base-select) {
+    #reply-route, #reply-route::picker(select) {
+      appearance: base-select;
+    }
+    #reply-route::picker(select) {
+      padding: .5rem;
+      border-radius: 1rem;
+    }
+  }
+</style>

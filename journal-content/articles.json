@@ -1,0 +1,86 @@
+[
+  {
+    "slug": "dropdown-defaults-accessible-forms",
+    "title": "Dropdown defaults: make the choice visible",
+    "description": "How to choose honest form defaults, label a select clearly and test a customizable dropdown without hiding the user’s decision.",
+    "category": "Insight",
+    "keywords": [
+      "dropdown UX best practices",
+      "accessible select dropdown",
+      "form defaults"
+    ],
+    "minutes": 4
+  },
+  {
+    "slug": "safer-confirmation-ux",
+    "title": "Safer confirmations for high-risk actions",
+    "description": "A practical guide to error prevention in forms: visible totals, plain-language choices, review steps and the limits of hold-to-confirm.",
+    "category": "Insight",
+    "keywords": [
+      "confirmation UX",
+      "form error prevention",
+      "destructive action design"
+    ],
+    "minutes": 4
+  },
+  {
+    "slug": "accessible-cta-button-design",
+    "title": "CTA buttons: clarity before animation",
+    "description": "Design accessible call-to-action buttons with clear labels, visible focus and useful feedback. Explore the live interaction before adding motion.",
+    "category": "Insight",
+    "keywords": [
+      "CTA button design",
+      "accessible buttons",
+      "website conversion UX"
+    ],
+    "minutes": 4
+  },
+  {
+    "slug": "website-walkthrough-video",
+    "title": "A walkthrough that answers the next question",
+    "description": "Plan a useful website walkthrough video: show one task, explain what happens next and provide a text alternative instead of relying on spectacle.",
+    "category": "Craft",
+    "keywords": [
+      "website walkthrough video",
+      "product demo video",
+      "accessible video content"
+    ],
+    "minutes": 3
+  },
+  {
+    "slug": "template-vs-custom-website",
+    "title": "Template or custom? Start with the workflow",
+    "description": "Choose between a template and a custom website by comparing content editing, integrations, accessibility, performance and ownership—not slogans.",
+    "category": "Insight",
+    "keywords": [
+      "template vs custom website",
+      "custom website development",
+      "website platform selection"
+    ],
+    "minutes": 4
+  },
+  {
+    "slug": "inp-animation-responsive-websites",
+    "title": "Fast feedback is not a short animation",
+    "description": "Understand INP, animation duration and reduced motion. A practical approach to responsive website interactions without a magic millisecond rule.",
+    "category": "Craft",
+    "keywords": [
+      "INP optimization",
+      "website animation performance",
+      "prefers reduced motion"
+    ],
+    "minutes": 3
+  },
+  {
+    "slug": "technical-seo-aeo-useful-content",
+    "title": "SEO and AEO start beneath the surface",
+    "description": "A grounded technical SEO and AEO checklist: crawlable links, useful answers, accurate structured data and measurement without ranking guarantees.",
+    "category": "Insight",
+    "keywords": [
+      "technical SEO checklist",
+      "AEO optimization",
+      "SEO for AI Overviews"
+    ],
+    "minutes": 4
+  }
+]

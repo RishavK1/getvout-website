@@ -1,0 +1,31 @@
+<!-- getvout journal: an explicit review baseline.
+     Production transactions also require server-side checks. -->
+<form id="training-payment">
+  <fieldset>
+    <legend>Review the training payment</legend>
+    <p>Example account: DEMO-01. No money will be sent.</p>
+    <label>
+      Payment purpose
+      <select name="purpose" required>
+        <option value="">Choose a purpose</option>
+        <option value="interest">Interest only: $125</option>
+        <option value="settlement">Full settlement: $2,500</option>
+      </select>
+    </label>
+    <label>
+      <input type="checkbox" name="reviewed" required>
+      I have checked the purpose and amount.
+    </label>
+    <button type="submit">Confirm training selection</button>
+  </fieldset>
+  <p role="status"></p>
+</form>
+<script>
+  const form = document.querySelector("#training-payment");
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    if (!form.reportValidity()) return;
+    form.querySelector('[role="status"]').textContent =
+      "Training selection recorded on screen only. No payment was sent.";
+  });
+</script>

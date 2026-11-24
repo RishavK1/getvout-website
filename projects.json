@@ -1,0 +1,14 @@
+{
+  "homeLimit": 4,
+  "overallProjects": "20+",
+  "projects": [
+    {"name":"JAC Creation","image":"getvout-jac-creation.jpg","url":"https://jac.getvout.com","category":"website","description":"A considered digital home for architecture and interiors, making the work easier to explore.","tags":["Architecture","Web design","Development"]},
+    {"name":"Hira Dhan Builders","image":"getvout-hiradhan-builders.jpg","url":"https://hiradhanbuilders.com/","category":"website","description":"A clear digital presence for a real estate brand, bringing its homes and developments into focus.","tags":["Real estate","Web design","Development"]},
+    {"name":"Rudra Infocom","image":"getvout-rudra-infocom.webp","url":"https://rudrainfo.co.in/","category":"website","description":"A service-focused website for an IT and telecommunications business, bringing network planning, installation and connectivity solutions into one clear digital presence.","tags":["IT & telecom","Web design","Development"]},
+    {"name":"Bloom","image":"getvout-bloom.webp","url":"https://bloom.rishavkamboj.online/","category":"webapp","description":"A lifestyle product experience shaped around a clear, memorable digital presence.","tags":["Lifestyle","Product design","Development"]},
+    {"name":"Rose Cafe","image":"getvout-rose-cafe-editorial.jpg","url":"https://rose-petal-scroll.vercel.app/","category":"website","description":"An editorial digital experience that brings the atmosphere of Rose Cafe online.","tags":["Hospitality","Visual direction","Web design"]},
+    {"name":"Lavisha Glow & Glam","image":"getvout-lavisha-glow-glam.jpg","url":"https://lavishaglowandglam.shop/","category":"ecommerce","description":"A beauty commerce experience designed to make the brand and its products easy to explore.","tags":["Beauty","E-commerce","Development"]},
+    {"name":"Rana Academy","image":"getvout-rana-academy.jpg","url":"https://rana-academy.vercel.app/","category":"website","description":"A clear, accessible digital home for Rana Academy and its learning offering.","tags":["Education","Web design","Development"]},
+    {"name":"TalScout.ai","image":"getvout-talscout.webp","url":"https://talscout.rishavkamboj.online/","category":"webapp","description":"A focused product experience for finding, reviewing, and organizing talent in one place.","tags":["Product design","Web application","AI"]}
+  ]
+}

@@ -1,0 +1,32 @@
+# Local build output (recreated from site-source/)
+/faithful/
+/build-manifest.json
+
+# Test captures, logs and audit results; retain the reusable test harness
+/shots/*
+!/shots/cdp.js
+*.log
+__pycache__/
+*.py[cod]
+.DS_Store
+
+# Original capture copies are already included in site-source/
+/project-media/
+/studio-media/
+/getvout-reference.html
+/getvout-reference.js
+/CLEANUP-AUDIT.md
+
+# Local environments, credentials and editor/agent tooling
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.opencode/
+.claude/
+node_modules/
+.idea/
+.vscode/
