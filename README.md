@@ -98,7 +98,7 @@ The static audit checks local targets/assets, route-specific indexing policy, pa
 
 - Production indexing was authorized on 24 November 2026. Local/alternate deployment hosts still emit noindex response headers; unfinished pages and 404s remain noindex.
 - Forms validate locally and do **not** deliver enquiries; the interface says so.
-- Analytics remain disabled.
+- Vercel Web Analytics is configured and will collect page view data once enabled in the Vercel project dashboard.
 - Journal articles disclose AI assistance and the owner's confirmed team review, and retain source links.
 - Privacy and Imprint remain drafts pending confirmed legal/business details and production service arrangements.
 - Third-party/client content and media rights must be verified before public release.
