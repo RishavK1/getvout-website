@@ -5,7 +5,6 @@ import re
 from pathlib import Path
 from xml.etree import ElementTree as ET
 from lxml import html, etree
-from PIL import Image, ImageOps
 from site_data import records, encode
 
 ROOT = Path(__file__).resolve().parent
@@ -14,6 +13,7 @@ CONFIG = json.loads((ROOT / "seo-config.json").read_text())
 ORIGIN = CONFIG["origin"]
 HOME = ORIGIN + CONFIG["home"]
 NOINDEX = set(CONFIG["noindex"])
+GOOGLE_SITE_VERIFICATION = "UNnS-iB2-2Q0rEg0HKKW2tmBNIlDZ5jHdmdYsWVxGU0"
 ARTICLES = json.loads((ROOT / "journal-content/articles.json").read_text())
 PAGES = copy.deepcopy(CONFIG["pages"])
 OLD_DISCLOSURE = "getvout journal · AI-assisted editorial draft. Primary sources are linked above; review before public publication."
@@ -25,6 +25,10 @@ for index, article in enumerate(ARTICLES):
         "description": article["description"], "label": article["title"],
         "article": article, "image": f"/img/getvout/social-journal-{index}.jpg",
     }
+for route, info in PAGES.items():
+    slug = "home" if route == "/en" else route.removeprefix("/en/").replace("/", "-")
+    info["image"] = f"/img/getvout/social-v2/{slug}.jpg"
+    info["imageAlt"] = f"getvout — {info['label']}. Branded design and development studio sharing card."
 
 
 def organization():
@@ -103,13 +107,14 @@ def schema(route, info):
 
 def metadata(route, info):
     url = ORIGIN + route
-    image = ORIGIN + info.get("image", "/img/getvout/social-site.jpg")
+    image = ORIGIN + info.get("image", "/img/getvout/social-v2/home.jpg")
     title, desc = info["title"], info["description"]
     robots = "noindex, follow" if route in NOINDEX else "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
-    image_alt = info["label"] + " — getvout journal illustration" if "article" in info else "getvout portfolio — JAC Creation website"
+    image_alt = info["imageAlt"]
     result = [("title", {}, title)]
     result += [("meta", {"name": name, "content": value}, None) for name, value in [
         ("description", desc), ("application-name", "getvout"), ("author", "getvout"),
+        ("google-site-verification", GOOGLE_SITE_VERIFICATION),
         ("robots", robots), ("twitter:card", "summary_large_image"),
         ("twitter:title", title), ("twitter:description", desc),
         ("twitter:image", image), ("twitter:image:alt", image_alt),
@@ -119,6 +124,7 @@ def metadata(route, info):
         ("og:title", title), ("og:description", desc), ("og:url", url), ("og:site_name", "getvout"),
         ("og:locale", "en_IN"), ("og:type", "article" if "article" in info else "website"),
         ("og:image", image), ("og:image:type", "image/jpeg"),
+        ("og:image:secure_url", image),
         ("og:image:width", "1200"), ("og:image:height", "630"), ("og:image:alt", image_alt),
     ]]
     if "article" in info:
@@ -261,10 +267,9 @@ def apply_page(route, info):
 
 
 def apply():
-    media = SOURCE / "img/getvout"
-    ImageOps.fit(Image.open(SOURCE / "api/media/file/getvout-jac-creation.jpg").convert("RGB"), (1200, 630)).save(media / "social-site.jpg", quality=90)
-    for index in range(len(ARTICLES)):
-        ImageOps.fit(Image.open(media / f"journal-{index}.jpg").convert("RGB"), (1200, 630)).save(media / f"social-journal-{index}.jpg", quality=90)
+    for info in PAGES.values():
+        if not (SOURCE / info["image"].lstrip("/")).is_file():
+            raise FileNotFoundError("Sharing card missing. Run python3 social_cards.py with the local server running.")
     graphs = {route: schema(route, info) for route, info in PAGES.items()}
     # A shared layout persists during client navigation. A real React component
     # observes the route so rendered JSON-LD stays identical to canonical SSR.

@@ -78,9 +78,17 @@ The static audit checks local targets/assets, route-specific indexing policy, pa
 - Shared Organization/WebSite identities and page-specific structured data are
   present in initial HTML. A small React component keeps JSON-LD correct during
   client-side navigation as the shared layout persists.
-- Social cards reference real, local 1200 × 630 JPEGs.
+- Each of the 23 pages has a custom getvout-branded 1200 × 630 JPEG sharing card
+  for Open Graph/Facebook/WhatsApp/LinkedIn and X/Twitter. These use the studio's
+  own typography, brand colours and vector artwork, never a client project photo.
+- `python3 social_cards.py` regenerates the cards using the local preview server
+  at port 4173 and Chrome. It uses no paid image-generation API. The versioned
+  card assets are committed, so deployment itself needs no browser.
 - Do not invent a sitemap lastmod for routine rebuilds. Journal publication
   dates reflect the owner's approval; change dates only for real content changes.
+- The Google Search Console verification tag is included in every page's
+  `<head>`. A Domain property also requires the same token as a DNS TXT record
+  at the third-party DNS host; Vercel does not manage this domain's DNS.
 - Search Console verification and sitemap submission remain separate steps.
   No indexation, ranking, Google sitelinks or AI citations are guaranteed.
 - Indexing guidance is not a model-training licence. No bespoke AI-training

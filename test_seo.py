@@ -48,6 +48,8 @@ class SEOTests(unittest.TestCase):
                 self.assertEqual(canonical, [CONFIG["origin"] + route])
                 self.assertEqual(len(robots), 1)
                 self.assertEqual("noindex" in robots[0], route in CONFIG["noindex"])
+                self.assertEqual(doc.xpath('//meta[@name="google-site-verification"]/@content'),
+                                 ["UNnS-iB2-2Q0rEg0HKKW2tmBNIlDZ5jHdmdYsWVxGU0"])
                 if route not in CONFIG["noindex"]:
                     indexable.add(canonical[0])
                 titles += title
@@ -71,6 +73,9 @@ class SEOTests(unittest.TestCase):
                     self.assertIn("AI-assisted content reviewed by the getvout team", doc.text_content())
                 self.assertFalse(doc.xpath('//meta[@property="og:locale:alternate"]'))
                 image_url = doc.xpath('//meta[@property="og:image"]/@content')[0]
+                self.assertIn("/img/getvout/social-v2/", image_url)
+                self.assertEqual(doc.xpath('//meta[@name="twitter:image"]/@content'), [image_url])
+                self.assertEqual(doc.xpath('//meta[@property="og:image:secure_url"]/@content'), [image_url])
                 local_image = SOURCE / image_url.removeprefix(CONFIG["origin"] + "/")
                 with Image.open(local_image) as image:
                     self.assertEqual(image.size, (1200, 630))

@@ -76,6 +76,31 @@ async function main() {
     deviceScaleFactor: 1,
     mobile: width < 700,
   });
+  if (process.env.SOCIAL_CARDS) {
+    const tasks = JSON.parse(fs.readFileSync(process.env.SOCIAL_CARDS, "utf8"));
+    for (const task of tasks) {
+      await send("Page.navigate", {url:task.url});
+      for (let i=0;i<100;i++) {
+        const state = await send("Runtime.evaluate",{
+          expression:`document.readyState==="complete"&&location.pathname===${JSON.stringify(new URL(task.url).pathname)}`,
+          returnByValue:true
+        });
+        if(state.result?.value) break;
+        await sleep(30);
+      }
+      await send("Runtime.evaluate",{expression:"document.fonts.ready",awaitPromise:true});
+      const fit = await send("Runtime.evaluate", {
+        expression:`(() => {const copy=document.querySelector(".copy"),art=document.querySelector(".art"),h=document.querySelector("h1");let size=parseFloat(getComputedStyle(h).fontSize);while((h.getBoundingClientRect().bottom>420||h.scrollWidth>copy.clientWidth)&&size>46){h.style.fontSize=(--size)+"px";}return {title:h.textContent,fontSize:size,titleBottom:h.getBoundingClientRect().bottom,copyBottom:copy.getBoundingClientRect().bottom};})()`,
+        returnByValue:true
+      });
+      const capture=await send("Page.captureScreenshot",{format:"jpeg",quality:94,fromSurface:true,captureBeyondViewport:false});
+      fs.writeFileSync(task.path,Buffer.from(capture.data,"base64"));
+      console.log("CARD",task.route,JSON.stringify(fit.result?.value));
+    }
+    ws.close();
+    chrome.kill();
+    return;
+  }
   if (process.env.SITE_AUDIT) {
     const siteRoot = path.resolve(__dirname, "../faithful");
     const routes = fs.readdirSync(path.join(siteRoot, "en"), {recursive:true})
