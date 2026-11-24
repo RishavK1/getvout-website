@@ -101,6 +101,8 @@ class SEOTests(unittest.TestCase):
         urls = [n.text for n in sitemap.iter("{http://www.sitemaps.org/schemas/sitemap/0.9}loc")]
         self.assertEqual(len(urls), 20)
         self.assertEqual(set(urls), indexable)
+        nested = ET.parse(SOURCE / "en/sitemap.xml")
+        self.assertEqual([n.text for n in nested.iter("{http://www.sitemaps.org/schemas/sitemap/0.9}loc")], urls)
 
     def test_discovery(self):
         robots = (SOURCE / "robots.txt").read_text()

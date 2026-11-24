@@ -302,6 +302,10 @@ def apply():
         if "article" in info:
             ET.SubElement(node, ns + "lastmod").text = CONFIG["publicationDate"]
     ET.ElementTree(tree).write(SOURCE / "sitemap.xml", encoding="utf-8", xml_declaration=True)
+    # Search Console URL-prefix properties only accept a sitemap below the
+    # verified path. Keep an equivalent sitemap under /en/ so the existing
+    # https://getvout.com/en/ property can submit it directly.
+    ET.ElementTree(tree).write(SOURCE / "en/sitemap.xml", encoding="utf-8", xml_declaration=True)
     print(f"Updated {len(PAGES)} pages; {len(PAGES) - len(NOINDEX)} indexable canonical URLs.")
 
 
