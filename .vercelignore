@@ -1,0 +1,13 @@
+.git
+faithful
+shots
+project-media
+studio-media
+__pycache__
+.venv
+venv
+getvout-reference.html
+getvout-reference.js
+build-manifest.json
+CLEANUP-AUDIT.md
+.env*

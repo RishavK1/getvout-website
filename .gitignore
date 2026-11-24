@@ -30,3 +30,7 @@ venv/
 node_modules/
 .idea/
 .vscode/
+.vercel/
+/public/
+.vercel
+.env*

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "node build-vercel.cjs",
+  "outputDirectory": "public",
+  "functions": {
+    "api/index.py": {
+      "includeFiles": "{site-source/**,journal-content/articles.json,serve.py}"
+    }
+  },
+  "routes": [
+    {"src": "/(?:en(?:/.*)?|contact|start-project|)", "dest": "/api/index"},
+    {"handle": "filesystem"},
+    {"src": "/(.*)", "dest": "/api/index"}
+  ]
+}

@@ -17,6 +17,21 @@ environment.
 
 ## Source and build
 
+### Vercel
+
+The GitHub repository is connected to the separate Vercel project
+`getvout-website` in `rishavs-projects-e5cac2c2`.
+Its initial test URL is https://getvout-website.vercel.app.
+The existing custom domain has not been transferred.
+
+`vercel.json` and `build-vercel.cjs` publish static assets, while `api/index.py`
+adapts the local Python handler for pages, RSC navigation, enquiry presets,
+image requests and real 404 responses. Preview noindex and local-only forms
+remain enabled. Vercel authentication protection may require signing in to
+view the test deployment.
+
+Do not commit `.vercel/` or `.env.local`; these hold local project/auth state.
+
 - `site-source/` is the canonical, fully local website: paired HTML/React Server Component payloads, compiled JavaScript, CSS, fonts and media.
 - `faithful/` is the served build output. The build copies local files byte-for-byte and writes `build-manifest.json`; it never downloads pages or assets.
 - This is a compiled snapshot-based implementation, not a conventional editable React source repository. Content changes must keep server HTML, embedded Flight data, `.rsc` payloads and relevant client data consistent. `site_data.py` reads/writes byte-counted Flight records.
