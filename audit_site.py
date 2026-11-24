@@ -34,6 +34,8 @@ def audit(forbidden):
             local = unquote(parsed.path)
             if local == "/_next/image":
                 local = parse_qs(parsed.query).get("url", [""])[0]
+            if local == "/_vercel/insights/script.js":
+                return True  # Injected by Vercel Web Analytics after deployment.
             if local in {"/", "/contact", "/start-project"}:
                 return True
             target = ROOT / "faithful" / local.lstrip("/")

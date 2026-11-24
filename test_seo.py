@@ -50,6 +50,9 @@ class SEOTests(unittest.TestCase):
                 self.assertEqual("noindex" in robots[0], route in CONFIG["noindex"])
                 self.assertEqual(doc.xpath('//meta[@name="google-site-verification"]/@content'),
                                  ["UNnS-iB2-2Q0rEg0HKKW2tmBNIlDZ5jHdmdYsWVxGU0"])
+                self.assertEqual(doc.xpath('//script[@data-getvout-analytics]/@src'),
+                                 ["/_vercel/insights/script.js"])
+                self.assertEqual(len(doc.xpath('//script[@data-getvout-analytics]')), 2)
                 if route not in CONFIG["noindex"]:
                     indexable.add(canonical[0])
                 titles += title
@@ -103,6 +106,14 @@ class SEOTests(unittest.TestCase):
         self.assertEqual(set(urls), indexable)
         nested = ET.parse(SOURCE / "en/sitemap.xml")
         self.assertEqual([n.text for n in nested.iter("{http://www.sitemaps.org/schemas/sitemap/0.9}loc")], urls)
+
+    def test_analytics(self):
+        page = html.fromstring((SOURCE / "404.html").read_text())
+        self.assertEqual(page.xpath('//script[@data-getvout-analytics]/@src'),
+                         ["/_vercel/insights/script.js"])
+        privacy = (SOURCE / "en/privacy/index.html").read_text()
+        self.assertIn("Vercel Web Analytics", privacy)
+        self.assertNotIn("Analytics are disabled in this local preview", privacy)
 
     def test_discovery(self):
         robots = (SOURCE / "robots.txt").read_text()

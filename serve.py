@@ -7,6 +7,7 @@ import argparse
 import json
 import re
 from html import escape
+import os
 
 ROOT = Path(__file__).resolve().parent / "faithful"
 JOURNAL = json.loads((ROOT.parent / "journal-content/articles.json").read_text())
@@ -71,6 +72,18 @@ class PreviewHandler(SimpleHTTPRequestHandler):
         parsed = urlparse(self.path)
         route = parsed.path.rstrip("/") or "/"
         suffix = ("?" + parsed.query) if parsed.query else ""
+        if not os.environ.get("VERCEL") and route == "/_vercel/insights/script.js":
+            # Local previews have no Vercel edge route. Keep the page's loader
+            # from 404ing here; production always serves the real platform script.
+            content = b"/* Vercel Web Analytics is active only on the deployed site. */\n"
+            self.send_response(200)
+            self.send_header("Content-Type", "application/javascript; charset=utf-8")
+            self.send_header("Content-Length", str(len(content)))
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            if self.command != "HEAD":
+                self.wfile.write(content)
+            return
         aliases = {"/" + name for name in ("work", "services", "studio", "journal", "contact", "start-project", "privacy", "imprint")}
         if route in aliases:
             self.send_response(308)

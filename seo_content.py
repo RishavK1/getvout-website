@@ -14,10 +14,14 @@ ORIGIN = CONFIG["origin"]
 HOME = ORIGIN + CONFIG["home"]
 NOINDEX = set(CONFIG["noindex"])
 GOOGLE_SITE_VERIFICATION = "UNnS-iB2-2Q0rEg0HKKW2tmBNIlDZ5jHdmdYsWVxGU0"
+ANALYTICS_SRC = "/_vercel/insights/script.js"
+ANALYTICS_STUB = "window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };"
 ARTICLES = json.loads((ROOT / "journal-content/articles.json").read_text())
 PAGES = copy.deepcopy(CONFIG["pages"])
 OLD_DISCLOSURE = "getvout journal · AI-assisted editorial draft. Primary sources are linked above; review before public publication."
 DISCLOSURE = "getvout journal · AI-assisted content reviewed by the getvout team. Primary sources are linked above."
+OLD_ANALYTICS_NOTICE = "Analytics are disabled in this local preview. If analytics are introduced for a public release, the tools, information collected and any applicable consent requirements must be described here before they are enabled."
+ANALYTICS_NOTICE = "We use Vercel Web Analytics to measure page views and understand how visitors reach the site. It is cookie-free and does not create advertising profiles or track visitors across other websites. It records the page visited, the referring site, device and browser category, and an approximate country derived from the request. Vercel processes this information on our behalf."
 for index, article in enumerate(ARTICLES):
     route = "/en/journal/" + article["slug"]
     PAGES[route] = {
@@ -156,6 +160,7 @@ def apply_page(route, info):
     entries = metadata(route, info)
     def text(value):
         value = value.replace(OLD_DISCLOSURE, DISCLOSURE)
+        value = value.replace(OLD_ANALYTICS_NOTICE, ANALYTICS_NOTICE)
         value = value.replace("23 November 2026", CONFIG["publishedDateLabel"])
         value = value.replace("2026-11-23", CONFIG["publicationDate"][:10])
         return value
@@ -232,6 +237,13 @@ def apply_page(route, info):
     for tag, props, content in entries:
         node = etree.SubElement(head, tag, props)
         node.text = content
+    # Vercel Web Analytics: the queue stub must precede the deferred loader.
+    # Remove prior copies so rerunning this script stays idempotent.
+    for node in head.xpath('script[@data-getvout-analytics]'):
+        head.remove(node)
+    stub = etree.SubElement(head, "script", {"data-getvout-analytics": ""})
+    stub.text = ANALYTICS_STUB
+    etree.SubElement(head, "script", {"data-getvout-analytics": "", "defer": "", "src": ANALYTICS_SRC})
     schema_nodes = doc.xpath('//script[@type="application/ld+json"]')
     if schema_nodes:
         schema_nodes[0].text = graph
