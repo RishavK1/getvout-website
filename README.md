@@ -139,3 +139,20 @@ The static audit checks local targets/assets, route-specific indexing policy, pa
   enquiry and analytics wording now describes the deployed services.
 - Third-party/client content and media rights must be verified before public release.
 - SEO skills are installed in the parent workspace `.opencode/`; see `.opencode/SEO-INSTALL.md`. No credentials, paid integrations, search submissions or public ranking measurements were used.
+# Google Analytics
+
+GA4 `G-PZ5DTH5MCX` uses the first-party `/analytics-consent.js` loader.
+`analytics_content.py` synchronizes one loader per canonical HTML page;
+`build_local.py` runs this synchronization offline. Commit synchronized sources
+before deploying. GTM is not installed.
+
+`/api/analytics-policy` enables this only on production canonical hosts, requiring
+consent for EEA/UK/Switzerland or unknown country. Other regions load by default
+unless the visitor declines. Choices expire after 180 days; withdrawal deletes
+accessible GA cookies and reloads. Vercel Analytics remains separate.
+
+Owner setup required: **disable Enhanced measurement** in the GA4 stream to avoid
+automatic forms/links/history events. Our loader emits sanitized page views only.
+Keep Google signals, user-provided data collection and ads linking off. Configure
+the desired server-side retention in GA4; code does not change account settings.
+Regional consent is not a legal-compliance guarantee.

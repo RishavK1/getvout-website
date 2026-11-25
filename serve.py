@@ -12,6 +12,15 @@ import enquiries
 
 ROOT = Path(__file__).resolve().parent / "faithful"
 JOURNAL = json.loads((ROOT.parent / "journal-content/articles.json").read_text())
+CONSENT_COUNTRIES = set("AT BE BG HR CY CZ DK EE FI FR DE GR HU IS IE IT LI LV LT LU MT NL NO PL PT RO SK SI ES SE GB CH".split())
+
+
+def analytics_policy(headers):
+    active = (os.environ.get("VERCEL_ENV") == "production"
+              and headers.get("Host", "").lower() in enquiries.HOSTS)
+    country = headers.get("X-Vercel-IP-Country", "").upper()
+    known = bool(re.fullmatch(r"[A-Z]{2}", country)) and country not in {"XX", "ZZ"}
+    return {"active": active, "consentRequired": not known or country in CONSENT_COUNTRIES}
 
 
 def brief_content(content, query, html=False):
@@ -73,6 +82,9 @@ class PreviewHandler(SimpleHTTPRequestHandler):
         parsed = urlparse(self.path)
         route = parsed.path.rstrip("/") or "/"
         suffix = ("?" + parsed.query) if parsed.query else ""
+        if parsed.path == "/api/analytics-policy":
+            self.enquiry_json(200, analytics_policy(self.headers))
+            return
         if parsed.path == "/api/enquiry":
             try:
                 # This is a same-origin bootstrap token, not a CORS endpoint.

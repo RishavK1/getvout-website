@@ -10,6 +10,8 @@ OUT = ROOT / "faithful"
 
 
 def build():
+    from analytics_content import apply
+    apply()
     if not (SOURCE / "en/index.html").is_file():
         raise SystemExit("Missing site-source/en/index.html")
     files = sorted(path for path in SOURCE.rglob("*") if path.is_file())
