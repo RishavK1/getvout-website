@@ -5,7 +5,8 @@
   "outputDirectory": "public",
   "functions": {
     "api/index.py": {
-      "includeFiles": "{site-source/**,journal-content/articles.json,serve.py}"
+      "includeFiles": "{site-source/**,journal-content/articles.json,serve.py,enquiries.py}",
+      "maxDuration": 30
     }
   },
   "routes": [

@@ -27,9 +27,10 @@ The old Vercel project remains separate and still serves its other subdomain.
 
 `vercel.json` and `build-vercel.cjs` publish static assets, while `api/index.py`
 adapts the local Python handler for pages, RSC navigation, enquiry presets,
-image requests and real 404 responses. Local/alternate-host noindex and local-only
-forms remain enabled. Vercel authentication protection may require signing in
-to view the test deployment.
+image requests, the production enquiry endpoint and real 404 responses.
+Local/alternate-host noindex remains enabled, and previews never deliver
+enquiries. Vercel authentication protection may require signing in to view the
+test deployment.
 
 Do not commit `.vercel/` or `.env.local`; these hold local project/auth state.
 
@@ -56,11 +57,33 @@ Do not commit `.vercel/` or `.env.local`; these hold local project/auth state.
 - Official socials: https://www.linkedin.com/company/getvout/ and https://www.instagram.com/getvout.
 - Unknown routes return a local 404. No remote website fallback or asset proxy.
 
+## Enquiry delivery
+
+- The Contact and Start Project forms submit same-origin JSON to `/api/enquiry`.
+  Production only (`VERCEL_ENV=production`, Host `getvout.com` or
+  `www.getvout.com`, matching HTTPS Origin) sends through Resend to
+  `hello@getvout.com`; the visitor's email is the Reply-To address.
+- `RESEND_API_KEY` is a Vercel Production secret. Never commit it, print it or
+  paste it into chat. `ENQUIRY_FROM` optionally overrides the sender; it is
+  restricted to a `getvout.com` address.
+- The backend is `enquiries.py` (standard library only). It validates and size-
+  limits fields, checks a signed short-lived bootstrap token, a honeypot, and a
+  best-effort per-instance rate limit. Resend idempotency keys stop a retried
+  identical submission from creating a second email.
+- Success is shown only after Resend accepts the message and returns an ID.
+  That confirms provider acceptance, not final inbox delivery. Failed requests
+  keep the entered details and return an honest error.
+- Previews and alternate hosts never send: the form explains that the message
+  was not sent or stored. No visitor auto-reply is sent.
+- `python3 -m unittest test_enquiries -v` covers validation, message content,
+  provider failures, rate limiting and the HTTP endpoint with delivery mocked.
+
 ## Audit
 
 ```sh
 python3 audit_site.py
 python3 -m unittest test_seo -v
+python3 -m unittest test_enquiries -v
 INTERACTIVE=1 SITE_AUDIT=shots/site-browser-audit.json node shots/cdp.js http://localhost:4173/en
 ```
 
@@ -108,9 +131,11 @@ The static audit checks local targets/assets, route-specific indexing policy, pa
 ## Preview limitations
 
 - Production indexing was authorized on 24 November 2026. Local/alternate deployment hosts still emit noindex response headers; unfinished pages and 404s remain noindex.
-- Forms validate locally and do **not** deliver enquiries; the interface says so.
+- Forms deliver in production through Resend; local and alternate-host previews
+  still validate and explain that nothing was sent or stored.
 - Analytics are enabled in production; local previews use a no-op stub and send nothing.
 - Journal articles disclose AI assistance and the owner's confirmed team review, and retain source links.
-- Privacy and Imprint remain drafts pending confirmed legal/business details and production service arrangements.
+- Privacy and Imprint remain drafts pending confirmed legal/business details; the
+  enquiry and analytics wording now describes the deployed services.
 - Third-party/client content and media rights must be verified before public release.
 - SEO skills are installed in the parent workspace `.opencode/`; see `.opencode/SEO-INSTALL.md`. No credentials, paid integrations, search submissions or public ranking measurements were used.

@@ -8,6 +8,7 @@ import json
 import re
 from html import escape
 import os
+import enquiries
 
 ROOT = Path(__file__).resolve().parent / "faithful"
 JOURNAL = json.loads((ROOT.parent / "journal-content/articles.json").read_text())
@@ -72,6 +73,21 @@ class PreviewHandler(SimpleHTTPRequestHandler):
         parsed = urlparse(self.path)
         route = parsed.path.rstrip("/") or "/"
         suffix = ("?" + parsed.query) if parsed.query else ""
+        if parsed.path == "/api/enquiry":
+            try:
+                # This is a same-origin bootstrap token, not a CORS endpoint.
+                host = self.headers.get("Host", "").lower()
+                if os.environ.get("VERCEL_ENV") != "production" or host not in enquiries.HOSTS:
+                    raise enquiries.EnquiryError(403, "This preview does not send enquiries. Use getvout.com or email hello@getvout.com.")
+                key, _ = enquiries.configuration()
+                self.enquiry_json(200, {"token": enquiries.token(key)})
+            except enquiries.EnquiryError as error:
+                self.enquiry_json(error.status, {"ok": False, "message": error.message})
+            except Exception as error:
+                # Never return a stack trace or visitor data.
+                print("enquiry token error: " + type(error).__name__, flush=True)
+                self.enquiry_json(500, {"ok": False, "message": "Email delivery is temporarily unavailable. Please email hello@getvout.com directly."})
+            return
         if not os.environ.get("VERCEL") and route == "/_vercel/insights/script.js":
             # Local previews have no Vercel edge route. Keep the page's loader
             # from 404ing here; production always serves the real platform script.
@@ -189,6 +205,52 @@ class PreviewHandler(SimpleHTTPRequestHandler):
 
     def do_HEAD(self):
         self.do_GET()
+
+    def enquiry_json(self, status, payload):
+        content = json.dumps(payload).encode()
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(content)))
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("X-Robots-Tag", "noindex")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        if status == 429:
+            self.send_header("Retry-After", "600")
+        self.end_headers()
+        if self.command != "HEAD":
+            self.wfile.write(content)
+
+    def do_POST(self):
+        if self.path != "/api/enquiry":
+            self.enquiry_json(404, {"ok": False, "message": "Please use our contact or project form."})
+            return
+        try:
+            enquiries.require_production(self.headers)
+            key, sender = enquiries.configuration()
+            if self.headers.get("Content-Type", "").split(";")[0].strip().lower() != "application/json":
+                raise enquiries.EnquiryError(415, "Please use the website enquiry form.")
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+            except ValueError:
+                raise enquiries.EnquiryError(400, "Invalid submission.")
+            if not 0 < length <= enquiries.MAX_BODY:
+                raise enquiries.EnquiryError(413, "Please shorten your enquiry and try again.")
+            try:
+                data = json.loads(self.rfile.read(length))
+            except (ValueError, UnicodeError):
+                raise enquiries.EnquiryError(400, "Please check the form and try again.")
+            fields = enquiries.validate(data, key)
+            enquiries.check_rate(self.headers, key)
+            enquiries.send(fields, key, sender)
+            # Provider acceptance is not proof of final inbox delivery.
+            self.enquiry_json(200, {"ok": True, "reference": fields["submissionId"], "message":
+                "Thank you. Your enquiry has been submitted to our team. Reference: " + fields["submissionId"][:8]})
+        except enquiries.EnquiryError as error:
+            self.enquiry_json(error.status, {"ok": False, "message": error.message})
+        except Exception as error:
+            print("enquiry handler error: " + type(error).__name__, flush=True)
+            self.enquiry_json(500, {"ok": False, "message":
+                "We could not confirm your enquiry. Please try again or email hello@getvout.com. Your form has not been cleared."})
 
     def serve_video_range(self):
         file = Path(self.translate_path(self.path))
