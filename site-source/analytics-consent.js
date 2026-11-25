@@ -7,7 +7,7 @@
   const ID = "G-PZ5DTH5MCX", KEY = "getvout-analytics-v1", MAX_AGE = 180 * 86400000;
   let started = false, allowed = false, lastPath = "", panel, settings;
   window.dataLayer = window.dataLayer || [];
-  const gtag = (...args) => window.dataLayer.push(args);
+  function gtag() { window.dataLayer.push(arguments); }
   window["ga-disable-" + ID] = true;
   gtag("consent", "default", {analytics_storage: "denied", ad_storage: "denied",
     ad_user_data: "denied", ad_personalization: "denied"});
@@ -115,6 +115,19 @@
     });
   }
   async function init() {
+    // Next creates its route announcer in a post-hydration React effect.
+    // Appending UI before that can invalidate the server-rendered document.
+    if (!document.querySelector("next-route-announcer")) {
+      await new Promise(resolve => {
+        const observer = new MutationObserver(() => {
+          if (document.querySelector("next-route-announcer")) {
+            observer.disconnect();
+            resolve();
+          }
+        });
+        observer.observe(document.body, {childList: true, subtree: true});
+      });
+    }
     let policy;
     try {
       const response = await fetch("/api/analytics-policy", {cache: "no-store", credentials: "same-origin"});
